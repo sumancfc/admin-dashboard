@@ -26,7 +26,7 @@ import { FcGoogle } from 'react-icons/fc';
 import { MdOutlineRemoveRedEye } from 'react-icons/md';
 import { RiEyeCloseLine } from 'react-icons/ri';
 
-export default function SignIn() {
+export default function SignUp() {
   // Chakra color mode
   const textColor = useColorModeValue('navy.700', 'white');
   const textColorSecondary = 'gray.400';
@@ -62,7 +62,7 @@ export default function SignIn() {
       >
         <Box me="auto">
           <Heading color={textColor} fontSize="36px" mb="10px">
-            Sign In
+            Sign Up
           </Heading>
           <Text
             mb="36px"
@@ -71,7 +71,7 @@ export default function SignIn() {
             fontWeight="400"
             fontSize="md"
           >
-            Enter your email and password to sign in!
+            Enter your name, email and password to sign up!
           </Text>
         </Box>
         <Flex
@@ -85,31 +85,28 @@ export default function SignIn() {
           me="auto"
           mb={{ base: '20px', md: 'auto' }}
         >
-          <Button
-            fontSize="sm"
-            me="0px"
-            mb="26px"
-            py="15px"
-            h="50px"
-            borderRadius="16px"
-            bgColor={googleBg}
-            color={googleText}
-            fontWeight="500"
-            _hover={googleHover}
-            _active={googleActive}
-            _focus={googleActive}
-          >
-            <Icon as={FcGoogle} w="20px" h="20px" me="10px" />
-            Sign in with Google
-          </Button>
-          <Flex align="center" mb="25px">
-            <HSeparator />
-            <Text color="gray.400" mx="14px">
-              or
-            </Text>
-            <HSeparator />
-          </Flex>
           <FormControl>
+            <FormLabel
+                display="flex"
+                ms="4px"
+                fontSize="sm"
+                fontWeight="500"
+                color={textColor}
+                mb="8px"
+            >
+              Your FullName<Text color={brandStars}>*</Text>
+            </FormLabel>
+            <Input
+                isRequired={true}
+                variant="auth"
+                fontSize="sm"
+                ms={{ base: '0px', md: '0px' }}
+                type="text"
+                placeholder="John Doe"
+                mb="24px"
+                fontWeight="500"
+                size="lg"
+            />
             <FormLabel
               display="flex"
               ms="4px"
@@ -118,7 +115,7 @@ export default function SignIn() {
               color={textColor}
               mb="8px"
             >
-              Email<Text color={brandStars}>*</Text>
+              Your Email<Text color={brandStars}>*</Text>
             </FormLabel>
             <Input
               isRequired={true}
@@ -138,13 +135,13 @@ export default function SignIn() {
               color={textColor}
               display="flex"
             >
-              Password<Text color={brandStars}>*</Text>
+              Enter Password<Text color={brandStars}>*</Text>
             </FormLabel>
             <InputGroup size="md">
               <Input
                 isRequired={true}
                 fontSize="sm"
-                placeholder="Enter your password"
+                placeholder="Min. 6 characters with 1 digit"
                 mb="24px"
                 size="lg"
                 type={show ? 'text' : 'password'}
@@ -159,34 +156,7 @@ export default function SignIn() {
                 />
               </InputRightElement>
             </InputGroup>
-            <Flex justifyContent="space-between" align="center" mb="24px">
-              <FormControl display="flex" alignItems="center">
-                <Checkbox
-                  id="remember-login"
-                  colorScheme="brandScheme"
-                  me="10px"
-                />
-                <FormLabel
-                  htmlFor="remember-login"
-                  mb="0"
-                  fontWeight="normal"
-                  color={textColor}
-                  fontSize="sm"
-                >
-                  Keep me logged in
-                </FormLabel>
-              </FormControl>
-              <Link href="/auth/forgot-password">
-                <Text
-                  color={textColorBrand}
-                  fontSize="sm"
-                  w="124px"
-                  fontWeight="500"
-                >
-                  Forgot password?
-                </Text>
-              </Link>
-            </Flex>
+
             <Button
               fontSize="sm"
               variant="brand"
@@ -195,7 +165,7 @@ export default function SignIn() {
               h="50"
               mb="24px"
             >
-              Sign In
+              Sign up
             </Button>
           </FormControl>
           <Flex
@@ -205,16 +175,16 @@ export default function SignIn() {
             maxW="100%"
             mt="0px"
           >
-            <Link href="/auth/sign-up">
+            <Link href="/auth/sign-in">
               <Text color={textColorDetails} fontWeight="400" fontSize="14px">
-                Not registered yet?
+                Already have an account?
                 <Text
                   color={textColorBrand}
                   as="span"
                   ms="5px"
                   fontWeight="500"
                 >
-                  Create an Account
+                  SignIn
                 </Text>
               </Text>
             </Link>
