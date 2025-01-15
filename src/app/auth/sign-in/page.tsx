@@ -117,10 +117,11 @@ export default function SignIn() {
               fontWeight="500"
               color={textColor}
               mb="8px"
+              htmlFor="email"
             >
               Email<Text color={brandStars}>*</Text>
             </FormLabel>
-            <Input
+            <Input id="email"
               isRequired={true}
               variant="auth"
               fontSize="sm"
@@ -137,11 +138,12 @@ export default function SignIn() {
               fontWeight="500"
               color={textColor}
               display="flex"
+              htmlFor="password"
             >
               Password<Text color={brandStars}>*</Text>
             </FormLabel>
             <InputGroup size="md">
-              <Input
+              <Input id="password"
                 isRequired={true}
                 fontSize="sm"
                 placeholder="Enter your password"

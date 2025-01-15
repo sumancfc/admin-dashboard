@@ -93,10 +93,12 @@ export default function SignUp() {
                 fontWeight="500"
                 color={textColor}
                 mb="8px"
+                htmlFor="name"
             >
               Your FullName<Text color={brandStars}>*</Text>
             </FormLabel>
             <Input
+                id="name"
                 isRequired={true}
                 variant="auth"
                 fontSize="sm"
@@ -114,10 +116,12 @@ export default function SignUp() {
               fontWeight="500"
               color={textColor}
               mb="8px"
+              htmlFor="email"
             >
               Your Email<Text color={brandStars}>*</Text>
             </FormLabel>
             <Input
+                id="email"
               isRequired={true}
               variant="auth"
               fontSize="sm"
@@ -134,11 +138,13 @@ export default function SignUp() {
               fontWeight="500"
               color={textColor}
               display="flex"
+              htmlFor="password"
             >
               Enter Password<Text color={brandStars}>*</Text>
             </FormLabel>
             <InputGroup size="md">
               <Input
+                  id="password"
                 isRequired={true}
                 fontSize="sm"
                 placeholder="Min. 6 characters with 1 digit"
