@@ -1,7 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
-// Chakra imports
+import React, {ChangeEvent, useState} from 'react';
 import {
   Box,
   Button,
@@ -16,17 +15,14 @@ import {
   Text,
   useColorModeValue,
 } from '@chakra-ui/react';
-// Custom components
-import { HSeparator } from 'components/separator/Separator';
 import DefaultAuthLayout from 'layouts/auth/Default';
-// Assets
 import Link from 'next/link';
-import { FcGoogle } from 'react-icons/fc';
-import { MdOutlineRemoveRedEye } from 'react-icons/md';
 import { RiEyeCloseLine } from 'react-icons/ri';
+import { MdOutlineRemoveRedEye } from 'react-icons/md';
 import useUserStore from 'store/userStore';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import {toast} from "react-toastify";
 
 export default function SignUp() {
   // Chakra color mode
@@ -40,7 +36,7 @@ export default function SignUp() {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
-  const setUser = useUserStore(state => state.setUser); // Get setUser function from Zustand store
+  const setUser = useUserStore(state => state.setUser);
 
   const router = useRouter();
 
@@ -54,9 +50,8 @@ export default function SignUp() {
         password,
       });
 
-      console.log('Response:', response);
+      /*console.log('Response:', response);*/
 
-      // Check if the signup was successful
       if (response.status === 201) {
         setUser({
           name: name,
@@ -67,10 +62,15 @@ export default function SignUp() {
         setEmail('');
         setPassword('');
 
-        router.push('/auth/sign-in');
+        toast.success(response.data.message);
+
+        setTimeout(() => {
+          router.push('/auth/sign-in');
+        }, 3000);
       }
     } catch (error) {
-      console.error('Signup failed:', error);
+      toast.error(error.response.data.error);
+      /*console.error('Signup failed:', error);*/
     }
   };
 
@@ -123,7 +123,7 @@ export default function SignUp() {
                   fontWeight="500"
                   size="lg"
                   value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  onChange={(e: ChangeEvent<HTMLInputElement> ): void => setName(e.target.value)}
               />
               <FormLabel display="flex" ms="4px" fontSize="sm" fontWeight="500" color={textColor} mb="8px" htmlFor="email">
                 Your Email<Text color={brandStars}>*</Text>
@@ -139,7 +139,7 @@ export default function SignUp() {
                   fontWeight="500"
                   size="lg"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e: ChangeEvent<HTMLInputElement>): void => setEmail(e.target.value)}
               />
               <FormLabel ms="4px" fontSize="sm" fontWeight="500" color={textColor} display="flex" htmlFor="password">
                 Enter Password<Text color={brandStars}>*</Text>
@@ -155,7 +155,7 @@ export default function SignUp() {
                     type={show ? 'text' : 'password'}
                     variant="auth"
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={(e: ChangeEvent<HTMLInputElement>): void => setPassword(e.target.value)}
                 />
                 <InputRightElement display="flex" alignItems="center" mt="4px">
                   <Icon
@@ -174,7 +174,7 @@ export default function SignUp() {
                   w="100%"
                   h="50"
                   mb="24px"
-                  onClick={handleSignup} // Call handleSignup on button click
+                  onClick={handleSignup}
               >
                 Sign up
               </Button>

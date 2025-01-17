@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, {ChangeEvent, useState} from 'react';
 import {
   Box,
   Button,
@@ -25,6 +25,7 @@ import { MdOutlineRemoveRedEye } from 'react-icons/md';
 import { RiEyeCloseLine } from 'react-icons/ri';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import {toast} from "react-toastify";
 
 export default function SignIn() {
   const textColor = useColorModeValue('navy.700', 'white');
@@ -46,16 +47,22 @@ export default function SignIn() {
         password,
       });
 
-      /* console.log('Response:', response);*/
+       /*console.log('Response:', response);*/
 
       if (response.status === 200) {
 
         localStorage.setItem('auth_token', response.data.token);
 
+        setEmail('');
+        setPassword('');
+
+        toast.success(response.data.message);
+
         router.push('/admin/default');
       }
     } catch (error) {
-      console.error('Sign In failed:', error);
+      /*console.error('Sign In failed:', error);*/
+      toast.error(error.response.data.error);
     }
   };
 
@@ -117,7 +124,7 @@ export default function SignIn() {
                   fontWeight="500"
                   size="lg"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e: ChangeEvent<HTMLInputElement>): void => setEmail(e.target.value)}
               />
               <FormLabel ms="4px" fontSize="sm" fontWeight="500" color={textColor} display="flex" htmlFor="password">
                 Password<Text color='brand.500'>*</Text>
@@ -133,7 +140,7 @@ export default function SignIn() {
                     type={show ? 'text' : 'password'}
                     variant="auth"
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={(e: ChangeEvent<HTMLInputElement>): void => setPassword(e.target.value)}
                 />
                 <InputRightElement display="flex" alignItems="center" mt="4px">
                   <Icon
@@ -164,7 +171,7 @@ export default function SignIn() {
                   w='100%'
                   h='50'
                   mb='24px'
-                  onClick={handleSignIn} // Call the sign-in function on button click
+                  onClick={handleSignIn}
               >
                 Sign In
               </Button>
