@@ -19,10 +19,10 @@ import DefaultAuthLayout from 'layouts/auth/Default';
 import Link from 'next/link';
 import { RiEyeCloseLine } from 'react-icons/ri';
 import { MdOutlineRemoveRedEye } from 'react-icons/md';
-import useUserStore from 'store/userStore';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import {toast} from "react-toastify";
+import useUserStore from  "store/userStore";
 
 export default function SignUp() {
   // Chakra color mode
@@ -31,12 +31,12 @@ export default function SignUp() {
   const textColorBrand = useColorModeValue('brand.500', 'white');
   const brandStars = useColorModeValue('brand.500', 'brand.400');
 
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState<boolean>(false);
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
-  const setUser = useUserStore(state => state.setUser);
+  const {setUser} = useUserStore();
 
   const router = useRouter();
 
@@ -54,9 +54,8 @@ export default function SignUp() {
 
       if (response.status === 201) {
         setUser({
-          name: name,
-          email: email
-        });
+          name,email
+        })
 
         setName('');
         setEmail('');
@@ -64,9 +63,7 @@ export default function SignUp() {
 
         toast.success(response.data.message);
 
-        setTimeout(() => {
-          router.push('/auth/sign-in');
-        }, 3000);
+        router.push('/auth/sign-in');
       }
     } catch (error) {
       toast.error(error.response.data.error);

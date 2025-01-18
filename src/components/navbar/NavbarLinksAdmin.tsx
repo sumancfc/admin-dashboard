@@ -1,5 +1,5 @@
 'use client';
-// Chakra Imports
+
 import {
   Box,
   Button,
@@ -16,16 +16,18 @@ import {
   useColorMode,
   useColorModeValue,
 } from '@chakra-ui/react';
-// Custom Components
 import { ItemContent } from 'components/menu/ItemContent';
 import { SearchBar } from 'components/navbar/searchBar/SearchBar';
 import { SidebarResponsive } from 'components/sidebar/Sidebar';
-// Assets
 import navImage from '/public/img/layout/Navbar.png';
 import { FaEthereum } from 'react-icons/fa';
 import { IoMdMoon, IoMdSunny } from 'react-icons/io';
 import { MdInfoOutline, MdNotificationsNone } from 'react-icons/md';
 import routes from 'routes';
+import {useState} from "react";
+import axios from "axios";
+import {toast} from "react-toastify";
+
 export default function HeaderLinks(props: {
   secondary: boolean;
   onOpen: boolean | any;
@@ -47,6 +49,22 @@ export default function HeaderLinks(props: {
     '14px 17px 40px 4px rgba(112, 144, 176, 0.06)',
   );
   const borderButton = useColorModeValue('secondaryGray.500', 'whiteAlpha.200');
+
+  const [loading, setLoading] = useState(false);
+
+  const handleSignOut = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get('http://localhost:8000/api/v1/signout');
+      setLoading(false);
+      localStorage.removeItem('auth_token');
+      /*console.log(response)*/
+      toast.success(response.data.message);
+    }catch(error) {
+      /*console.error('Sign out failed:', error);*/
+      toast.error('Sign out failed.');
+    }
+  };
 
   return (
     <Flex
@@ -305,8 +323,10 @@ export default function HeaderLinks(props: {
               color="red.400"
               borderRadius="8px"
               px="14px"
+              onClick={handleSignOut}
+              isDisabled={loading}
             >
-              <Text fontSize="sm">Log out</Text>
+              <Text fontSize="sm">{loading ? 'Logging out...' : 'Log out'}</Text>
             </MenuItem>
           </Flex>
         </MenuList>

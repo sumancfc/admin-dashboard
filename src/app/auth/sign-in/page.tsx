@@ -26,11 +26,14 @@ import { RiEyeCloseLine } from 'react-icons/ri';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import {toast} from "react-toastify";
+import useUserStore from "../../../store/userStore";
 
 export default function SignIn() {
   const textColor = useColorModeValue('navy.700', 'white');
   const textColorSecondary = 'gray.400';
   const textColorBrand = useColorModeValue('brand.500', 'white');
+
+  const { setUser } = useUserStore();
 
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
@@ -47,11 +50,13 @@ export default function SignIn() {
         password,
       });
 
-       /*console.log('Response:', response);*/
+      console.log('Response:', response);
 
       if (response.status === 200) {
 
-        localStorage.setItem('auth_token', response.data.token);
+        localStorage.setItem('token', response.data.token);
+
+        setUser(response.data.user);
 
         setEmail('');
         setPassword('');
