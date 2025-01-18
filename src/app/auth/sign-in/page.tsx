@@ -35,11 +35,12 @@ export default function SignIn() {
 
   const { setUser } = useUserStore();
 
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState<boolean>(false);
   const handleClick = () => setShow(!show);
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [keepMeLoggedIn, setKeepMeLoggedIn] = useState<boolean>(false);
 
   const router = useRouter();
 
@@ -48,19 +49,28 @@ export default function SignIn() {
       const response = await axios.post('http://localhost:8000/api/v1/signin', {
         email,
         password,
+        keepMeLoggedIn
       });
 
 /*      console.log('Response:', response);*/
       if (response.status === 200) {
 
-        localStorage.setItem('token', response.data.token);
+        const { token, userWithoutSensitiveInfo, message } = response.data;
 
-        setUser(response.data.userWithoutSensitiveInfo);
+        if (keepMeLoggedIn) {
+          localStorage.setItem('token', token);
+          localStorage.setItem('user', JSON.stringify(userWithoutSensitiveInfo));
+        } else {
+          sessionStorage.setItem('token', token);
+          sessionStorage.setItem('user', JSON.stringify(userWithoutSensitiveInfo));
+        }
+
+        setUser(userWithoutSensitiveInfo);
 
         setEmail('');
         setPassword('');
 
-        toast.success(response.data.message);
+        toast.success(message);
 
        router.push('/admin/default');
       }
@@ -157,7 +167,9 @@ export default function SignIn() {
               </InputGroup>
               <Flex justifyContent="space-between" alignItems="center" mb="24px">
                 <FormControl display="flex" alignItems="center">
-                  <Checkbox id="remember-login" colorScheme='brandScheme' me='10px' />
+                  <Checkbox id="remember-login" colorScheme='brandScheme' me='10px'
+                            isChecked = {keepMeLoggedIn}
+                            onChange={(e: ChangeEvent<HTMLInputElement>): void => setKeepMeLoggedIn(e.target.checked)} />
                   <FormLabel htmlFor='remember-login' mb='0' fontWeight='normal' color={textColor} fontSize='sm'>
                     Keep me logged in
                   </FormLabel>
