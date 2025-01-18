@@ -27,6 +27,7 @@ import routes from 'routes';
 import {useState} from "react";
 import axios from "axios";
 import {toast} from "react-toastify";
+import useUserStore from "../../store/userStore";
 
 export default function HeaderLinks(props: {
   secondary: boolean;
@@ -51,17 +52,20 @@ export default function HeaderLinks(props: {
   const borderButton = useColorModeValue('secondaryGray.500', 'whiteAlpha.200');
 
   const [loading, setLoading] = useState(false);
+  const { clearUser } = useUserStore();
 
   const handleSignOut = async () => {
     setLoading(true);
     try {
       const response = await axios.get('http://localhost:8000/api/v1/signout');
       setLoading(false);
-      localStorage.removeItem('auth_token');
+      localStorage.removeItem('token');
+      clearUser();
       /*console.log(response)*/
       toast.success(response.data.message);
     }catch(error) {
       /*console.error('Sign out failed:', error);*/
+      setLoading(false);
       toast.error('Sign out failed.');
     }
   };

@@ -50,20 +50,19 @@ export default function SignIn() {
         password,
       });
 
-      console.log('Response:', response);
-
+/*      console.log('Response:', response);*/
       if (response.status === 200) {
 
         localStorage.setItem('token', response.data.token);
 
-        setUser(response.data.user);
+        setUser(response.data.userWithoutSensitiveInfo);
 
         setEmail('');
         setPassword('');
 
         toast.success(response.data.message);
 
-        router.push('/admin/default');
+       router.push('/admin/default');
       }
     } catch (error) {
       /*console.error('Sign In failed:', error);*/
