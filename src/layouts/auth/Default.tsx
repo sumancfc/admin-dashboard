@@ -33,7 +33,7 @@ function AuthIllustration(props: {
         direction="column"
       >
         <Link
-          href="/admin"
+          href="/dashboard/admin"
           style={{
             width: 'fit-content',
             marginTop: '40px',

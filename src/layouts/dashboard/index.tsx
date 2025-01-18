@@ -1,14 +1,8 @@
-'use client';
 // Chakra imports
-import {
-  Portal,
-  Box,
-  useDisclosure,
-  useColorModeValue,
-} from '@chakra-ui/react';
+import { Portal, Box, useDisclosure } from '@chakra-ui/react';
 import Footer from 'components/footer/FooterAdmin';
 // Layout components
-import Navbar from 'components/navbar/NavbarAdmin';
+import Navbar from 'components/navbar/NavbarDashboard';
 import Sidebar from 'components/sidebar/Sidebar';
 import { SidebarContext } from 'contexts/SidebarContext';
 import { PropsWithChildren, useEffect, useState } from 'react';
@@ -17,6 +11,7 @@ import {
   getActiveNavbar,
   getActiveNavbarText,
   getActiveRoute,
+  isWindowAvailable,
 } from 'utils/navigation';
 
 interface DashboardLayoutProps extends PropsWithChildren {
@@ -24,7 +19,7 @@ interface DashboardLayoutProps extends PropsWithChildren {
 }
 
 // Custom Chakra theme
-export default function AdminLayout(props: DashboardLayoutProps) {
+export default function DashboardLayout(props: DashboardLayoutProps) {
   const { children, ...rest } = props;
   // states and functions
   const [fixed] = useState(false);
@@ -34,12 +29,10 @@ export default function AdminLayout(props: DashboardLayoutProps) {
 
   useEffect(() => {
     window.document.documentElement.dir = 'ltr';
-  }, []);
-
-  const bg = useColorModeValue('secondaryGray.300', 'navy.900');
+  });
 
   return (
-    <Box h="100vh" w="100vw" bg={bg}>
+    <Box>
       <SidebarContext.Provider
         value={{
           toggleSidebar,

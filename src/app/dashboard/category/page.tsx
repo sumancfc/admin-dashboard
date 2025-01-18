@@ -9,9 +9,9 @@ import tableDataCheck from 'views/admin/dataTables/variables/tableDataCheck';
 import tableDataColumns from 'views/admin/dataTables/variables/tableDataColumns';
 import tableDataComplex from 'views/admin/dataTables/variables/tableDataComplex';
 import React from 'react';
-import AdminLayout from 'layouts/admin';
+import DashboardLayout from 'layouts/dashboard';
 
-export default function DataTables() {
+export default function Category() {
   return (
     <Box pt={{ base: '130px', md: '80px', xl: '80px' }}>
       <SimpleGrid
